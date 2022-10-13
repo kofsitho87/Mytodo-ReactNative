@@ -38,15 +38,12 @@ export const TodoContextProvider = ({
     const createTodoData = await ApiClient.post('/todos', payload)
       .then(result => result.data?.data)
       .catch(e => {
-        console.log('createTodo error: ', e);
+        console.log('createTodo error: ', e.response.data);
         return null;
       });
-    console.log(createTodoData);
-
-    // setTodos([
-    //   ...todos,
-    //   {id: 100, title, ended_at, completed: false, created_at: new Date()},
-    // ]);
+    if (createTodoData) {
+      setTodos([...todos, createTodoData]);
+    }
   };
   const deleteTodo = () => {};
   const completeTodo = () => {};

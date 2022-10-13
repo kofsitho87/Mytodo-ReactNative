@@ -46,13 +46,23 @@ export const AuthContextProvider = ({
     const loginData = await ApiClient.post('/auth/login', {
       email: 's1@s.com',
       password: '123456',
-    }).then(result => result.data.data);
+    })
+      .then(result => result.data.data)
+      .catch(e => {
+        console.log(e);
+        return null;
+      });
+    console.log('loginData', loginData);
+    if (!loginData) {
+      return;
+    }
 
     ApiClient.defaults.headers.common.Authorization = loginData.accessToken;
 
     const meData = await ApiClient.get('/auth/me').then(
       result => result.data.data,
     );
+    console.log('meData', meData);
 
     const token = loginData.accessToken;
     const user = {
@@ -90,10 +100,15 @@ export const AuthContextProvider = ({
           console.log('checkLoggedIn error: ', e);
           return null;
         });
+      console.log('meData', meData);
+
       if (meData) {
         setUserToken(token);
         setUser(meData);
         setIsLoggedIn(true);
+      } else {
+        setUserToken(undefined);
+        setUser(undefined);
       }
     }
 

@@ -1,11 +1,11 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import React from 'react';
 import {TodoContextProvider} from '../../provider/Todo.provider';
 import CreateTodo from './CreateTodo';
 import Home from './Home';
 import LogoutButton from '../../components/common/Logout.button';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 const AppStack = () => {
   return (
@@ -28,7 +28,10 @@ const AppStack = () => {
         <Stack.Screen
           name="CreateTodo"
           component={CreateTodo}
-          options={{headerShown: true, title: ''}}
+          options={{
+            // headerShown: false,
+            ...TransitionPresets.ModalPresentationIOS,
+          }}
         />
       </Stack.Navigator>
     </TodoContextProvider>
